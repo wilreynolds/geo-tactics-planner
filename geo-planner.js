@@ -1009,8 +1009,12 @@ function App() {
               gridColumn: 2,
               gridRow: 1,
               position: "relative",
-              height: "66vh",
-              minHeight: 500,
+              // Board height is themeable from outside the shadow root via the
+              // --geo-board-h CSS custom property (custom props inherit through
+              // shadow boundaries). Defaults to 66vh. e.g. host CSS:
+              //   [data-geo-tactics-planner]{ --geo-board-h: 820px; }
+              height: "var(--geo-board-h, 66vh)",
+              minHeight: "var(--geo-board-min-h, 500px)",
               background: "#FFFFFF",
               border: "1.5px solid #CBD5E1",
               borderRadius: 10,
