@@ -1181,7 +1181,11 @@ function App() {
         })
       }), /*#__PURE__*/_jsxs("div", {
         style: {
-          flex: "1 1 300px",
+          // Tray keeps a fixed comfortable width instead of growing, so all
+          // extra horizontal space goes to the board on wide embeds. Width is
+          // themeable from outside via --geo-tray-w (custom props cross the
+          // shadow boundary). Still wraps below the board on narrow screens.
+          flex: "0 1 var(--geo-tray-w, 320px)",
           minWidth: 280,
           display: "flex",
           flexDirection: "column",
