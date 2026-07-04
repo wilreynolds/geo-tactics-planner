@@ -29,7 +29,20 @@
   function buildApp(React) {
     var useState = React.useState, useRef = React.useRef,
         useCallback = React.useCallback, useMemo = React.useMemo;
-    import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+    // jsx-runtime shim: map the automatic JSX runtime (_jsx/_jsxs) onto the
+    // global React UMD build loaded above. Replaces an `import ... from
+    // "react/jsx-runtime"` that a JSX transpiler left behind — illegal in a
+    // classic (non-module) script and bare specifiers can't resolve in-browser.
+    var _jsx = function (type, config, maybeKey) {
+      var props = {};
+      for (var k in config) { if (k !== "children") props[k] = config[k]; }
+      if (maybeKey !== undefined) props.key = maybeKey;
+      var children = config ? config.children : undefined;
+      if (children === undefined) return React.createElement(type, props);
+      if (Array.isArray(children)) return React.createElement.apply(null, [type, props].concat(children));
+      return React.createElement(type, props, children);
+    };
+    var _jsxs = _jsx;
 // ── SCORING CONTRACT ──────────────────────────────────────────────────
 // Single source of truth: every tactic has three 0–100 scores (higher = more):
 //     speed  (0 = slowest ...... 100 = fastest)
