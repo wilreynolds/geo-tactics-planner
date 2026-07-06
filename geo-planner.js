@@ -871,8 +871,8 @@ function App() {
       children: [/*#__PURE__*/_jsxs("div", {
         style: {
           maxWidth: 720,
-          fontSize: 12.5,
-          lineHeight: 1.55
+          fontSize: 14.5,
+          lineHeight: 1.6
         },
         children: [/*#__PURE__*/_jsx("span", {
           style: {
