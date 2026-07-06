@@ -60,8 +60,9 @@
 // "Copy scores" exports every placed tactic as id,label,speed,risk,impact (0–1).
 // Seed speed = Wil's Speed × Risk pass. risk + impact = Wil's Risk × Impact
 // pass (risk refined there, now authoritative).
-// 2 tactics still pending impact → zombie (occluded in source), web-train.
+// 1 tactic still pending impact → zombie (occluded in source).
 // ──────────────────────────────────────────────────────────────────────
+const SEER_LOGO = "data:image/png;base64,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";
 const TACTICS = [{
   id: "wiki",
   label: "Wikipedia edits",
@@ -104,7 +105,7 @@ const TACTICS = [{
   level: 3
 }, {
   id: "cold-pitch",
-  label: "Cold pitch — highly cited",
+  label: "Cold pitches to cited sources",
   x: 30,
   risk: 60,
   impact: 23,
@@ -127,14 +128,6 @@ const TACTICS = [{
   lever: "tech",
   level: 4
 }, {
-  id: "definition",
-  label: "Own the definition",
-  x: 16,
-  risk: 92,
-  impact: 5,
-  lever: "content",
-  level: 2
-}, {
   id: "vs",
   label: "Vs pages",
   x: 82,
@@ -152,7 +145,7 @@ const TACTICS = [{
   level: 3
 }, {
   id: "reddit",
-  label: "Reddit",
+  label: "Reddit engagement",
   x: 45,
   risk: 15,
   impact: 19,
@@ -207,14 +200,6 @@ const TACTICS = [{
   lever: "content",
   level: 3
 }, {
-  id: "task-ux",
-  label: "Task people (UX)",
-  x: 26,
-  risk: 94,
-  impact: 12,
-  lever: "content",
-  level: 3
-}, {
   id: "gtm",
   label: "GTM congruence (repetition)",
   x: 53,
@@ -224,7 +209,7 @@ const TACTICS = [{
   level: 3
 }, {
   id: "server-render",
-  label: "Server-render facts, close JS gaps",
+  label: "Close indexability gaps",
   x: 14,
   risk: 88,
   impact: 29,
@@ -239,14 +224,6 @@ const TACTICS = [{
   lever: "content",
   level: 2
 }, {
-  id: "mine-assump",
-  label: "Mine model's unprompted assumptions",
-  x: 18,
-  risk: 43,
-  impact: 54,
-  lever: "content",
-  level: 3
-}, {
   id: "bottom-funnel",
   label: "Own bottom-funnel branded prompts",
   x: 70,
@@ -255,28 +232,12 @@ const TACTICS = [{
   lever: "content",
   level: 3
 }, {
-  id: "trace",
-  label: "Trace every wrong answer's source",
-  x: 22,
-  risk: 65,
-  impact: 39,
-  lever: "content",
-  level: 2
-}, {
   id: "curators",
-  label: "Win named curators and newsletters",
+  label: "Influencer relations",
   x: 33,
   risk: 86,
   impact: 44,
   lever: "pr",
-  level: 4
-}, {
-  id: "custom-instr",
-  label: "Earn placement in custom instructions",
-  x: 25,
-  risk: 55,
-  impact: 17,
-  lever: "brand",
   level: 4
 }, {
   id: "influencer",
@@ -287,14 +248,6 @@ const TACTICS = [{
   lever: "brand",
   level: 4
 }, {
-  id: "defend",
-  label: "Defend competitor comparison hijacks",
-  x: 57,
-  risk: 32,
-  impact: 63,
-  lever: "content",
-  level: 3
-}, {
   id: "shoutouts",
   label: "Publish client shout-outs publicly",
   x: 64,
@@ -304,7 +257,7 @@ const TACTICS = [{
   level: 2
 }, {
   id: "orig-research",
-  label: "Publish original research / proprietary stats",
+  label: "Original research / data",
   x: 12,
   risk: 82,
   impact: 14,
@@ -312,7 +265,7 @@ const TACTICS = [{
   level: 4
 }, {
   id: "repair-3p",
-  label: "Repair third-party sources AI cites",
+  label: "Repair third-party sources",
   x: 37,
   risk: 51,
   impact: 39,
@@ -324,14 +277,6 @@ const TACTICS = [{
   x: 64,
   risk: 64,
   impact: 94,
-  lever: "brand",
-  level: 3
-}, {
-  id: "web-train",
-  label: "Offset web vs training data",
-  x: 12,
-  risk: 36,
-  impact: 54,
   lever: "brand",
   level: 3
 }];
@@ -399,11 +344,6 @@ const KPI = {
     kpi: "Crawlable-answer coverage / presence rate",
     meas: "High"
   },
-  definition: {
-    stage: "Believed",
-    kpi: "Owned-answer rate on 'what is X' prompts",
-    meas: "Med"
-  },
   vs: {
     stage: "Believed",
     kpi: "Owned-answer rate on comparison prompts",
@@ -449,11 +389,6 @@ const KPI = {
     kpi: "Expertise-signal citation & recommendation quality",
     meas: "Med"
   },
-  "task-ux": {
-    stage: "Believed",
-    kpi: "Coverage of customer-discovered prompts",
-    meas: "Med"
-  },
   gtm: {
     stage: "Believed",
     kpi: "Message consistency across cited sources",
@@ -469,19 +404,9 @@ const KPI = {
     kpi: "Presence-rate lift on refreshed pages",
     meas: "Med"
   },
-  "mine-assump": {
-    stage: "Believed",
-    kpi: "Coverage of the model's unprompted sub-questions",
-    meas: "Med"
-  },
   "bottom-funnel": {
     stage: "Chosen",
     kpi: "Owned-answer rate on branded bottom-funnel prompts",
-    meas: "Med"
-  },
-  trace: {
-    stage: "Believed",
-    kpi: "Accuracy-defect resolution rate (fixed at source)",
     meas: "Med"
   },
   curators: {
@@ -489,20 +414,10 @@ const KPI = {
     kpi: "Curator placements & their citation pickup",
     meas: "Low"
   },
-  "custom-instr": {
-    stage: "Chosen",
-    kpi: "Inclusion rate in users' custom instructions",
-    meas: "Low"
-  },
   influencer: {
     stage: "Chosen",
     kpi: "Named-person citation & brand-in-prompt rate",
     meas: "Low"
-  },
-  defend: {
-    stage: "Believed",
-    kpi: "Owned-answer rate on competitor-comparison prompts",
-    meas: "Med"
   },
   shoutouts: {
     stage: "Believed",
@@ -522,11 +437,6 @@ const KPI = {
   founder: {
     stage: "Chosen",
     kpi: "Brand-in-prompt rate / values-driven selection",
-    meas: "Low"
-  },
-  "web-train": {
-    stage: "Seen",
-    kpi: "Web-vs-training performance gap on target attributes",
     meas: "Low"
   }
 };
@@ -745,12 +655,21 @@ function App() {
   const placedIds = Object.keys(placed);
   const availCount = TACTICS.filter(available).length;
 
-  // live portfolio indices (0–100, higher = better plan). Recompute on every drag.
+  // live plan readouts — averaged across placed tactics, recomputed on every drag.
   const placedScoreList = placedIds.map(id => scores[id]);
-  const avgOf = f => placedScoreList.reduce((a, s) => a + f(s), 0) / placedScoreList.length;
-  const speedRisk = placedScoreList.length ? Math.round(avgOf(s => (s.speed + (100 - s.risk)) / 2)) : null;
-  const riskImpact = placedScoreList.length ? Math.round(avgOf(s => (s.impact + (100 - s.risk)) / 2)) : null;
+  const n = placedScoreList.length;
+  const avgOf = f => placedScoreList.reduce((a, s) => a + f(s), 0) / n;
   const gauge = v => v == null ? "#94A3B8" : v >= 66 ? "#059669" : v >= 40 ? "#D97706" : "#E11D48";
+  const avgSpeed = n ? avgOf(s => s.speed) : null;
+  const avgRisk = n ? avgOf(s => s.risk) : null;
+  const avgImpact = n ? avgOf(s => s.impact) : null;
+  const riskBand = avgRisk == null ? null : scoreBand(avgRisk);
+  const riskDots = avgRisk == null ? 0 : bandDots(avgRisk);
+  const riskColor = gauge(avgRisk == null ? null : 100 - avgRisk);
+  const impactBand = avgImpact == null ? null : scoreBand(avgImpact);
+  const impactDots = avgImpact == null ? 0 : bandDots(avgImpact);
+  const impactColor = gauge(avgImpact);
+  const speedColor = gauge(avgSpeed);
   const copyLayout = () => {
     const groups = {
       TR: [],
@@ -860,17 +779,32 @@ function App() {
         marginBottom: 16
       },
       children: [/*#__PURE__*/_jsxs("div", {
-        children: [/*#__PURE__*/_jsx("div", {
-          style: mono(11, "#64748B", 3),
-          children: "SEEN · BELIEVED · CHOSEN — CLIENT-SCOPED TACTIC PLANNER"
-        }), /*#__PURE__*/_jsxs("h1", {
+        children: [/*#__PURE__*/_jsx("a", {
+          href: "https://www.seerinteractive.com",
+          target: "_blank",
+          rel: "noopener noreferrer",
           style: {
-            margin: "4px 0 0",
-            fontSize: 26,
-            fontWeight: 800,
-            letterSpacing: -0.5
+            display: "inline-block"
           },
-          children: ["GEO planner: ", M.label]
+          children: /*#__PURE__*/_jsx("img", {
+            src: SEER_LOGO,
+            alt: "Seer Interactive",
+            style: {
+              height: 26,
+              width: "auto",
+              display: "block"
+            }
+          })
+        }), /*#__PURE__*/_jsx("h1", {
+          style: {
+            margin: "10px 0 0",
+            fontSize: 23,
+            fontWeight: 800,
+            letterSpacing: -0.5,
+            maxWidth: 540,
+            lineHeight: 1.22
+          },
+          children: "How fast and risky is my generative engine optimization strategy?"
         })]
       }), /*#__PURE__*/_jsxs("div", {
         style: {
@@ -878,18 +812,22 @@ function App() {
           gap: 10,
           flexWrap: "wrap"
         },
-        children: [/*#__PURE__*/_jsx(ScoreStat, {
-          label: "SPEED / RISK",
-          sub: "quick-win index",
-          val: speedRisk,
-          color: gauge(speedRisk),
-          active: mode === "sr"
-        }), /*#__PURE__*/_jsx(ScoreStat, {
-          label: "RISK / IMPACT",
-          sub: "priority index",
-          val: riskImpact,
-          color: gauge(riskImpact),
-          active: mode === "ri"
+        children: [/*#__PURE__*/_jsx(BandStat, {
+          label: "RISK",
+          sub: "brand exposure",
+          band: riskBand,
+          dots: riskDots,
+          color: riskColor
+        }), /*#__PURE__*/_jsx(SpeedStat, {
+          label: "SPEED · TIME TO PAYOFF",
+          speed: avgSpeed,
+          color: speedColor
+        }), /*#__PURE__*/_jsx(BandStat, {
+          label: "IMPACT",
+          sub: "needle-move",
+          band: impactBand,
+          dots: impactDots,
+          color: impactColor
         })]
       }), /*#__PURE__*/_jsx("div", {
         style: {
@@ -919,6 +857,97 @@ function App() {
       })]
     }), /*#__PURE__*/_jsxs("div", {
       style: {
+        background: "#0F172A",
+        color: "#E2E8F0",
+        borderRadius: 10,
+        padding: "13px 16px",
+        marginBottom: 14,
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12
+      },
+      children: [/*#__PURE__*/_jsxs("div", {
+        style: {
+          maxWidth: 720,
+          fontSize: 12.5,
+          lineHeight: 1.55
+        },
+        children: [/*#__PURE__*/_jsx("span", {
+          style: {
+            fontWeight: 800,
+            color: "#FFFFFF"
+          },
+          children: "From Wil Reynolds — "
+        }), "I was struggling with how to articulate the trade-offs that different generative-engine-optimization tactics require, so I built this and open-sourced it. My hope: help as many people in our industry as possible have better, more honest client conversations about this crazy moment. Make it your own."]
+      }), /*#__PURE__*/_jsxs("div", {
+        style: {
+          display: "flex",
+          gap: 8,
+          flexWrap: "wrap"
+        },
+        children: [/*#__PURE__*/_jsx("a", {
+          href: "https://www.linkedin.com/in/wilreynolds",
+          target: "_blank",
+          rel: "noopener noreferrer",
+          style: {
+            fontFamily: "ui-monospace, monospace",
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: 0.5,
+            textTransform: "uppercase",
+            padding: "6px 10px",
+            borderRadius: 7,
+            border: "1px solid #334155",
+            color: "#F1F5F9",
+            background: "#1E293B",
+            textDecoration: "none",
+            whiteSpace: "nowrap"
+          },
+          children: "Feedback on LinkedIn"
+        }), /*#__PURE__*/_jsx("a", {
+          href: "https://x.com/wilreynolds",
+          target: "_blank",
+          rel: "noopener noreferrer",
+          style: {
+            fontFamily: "ui-monospace, monospace",
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: 0.5,
+            textTransform: "uppercase",
+            padding: "6px 10px",
+            borderRadius: 7,
+            border: "1px solid #334155",
+            color: "#F1F5F9",
+            background: "#1E293B",
+            textDecoration: "none",
+            whiteSpace: "nowrap"
+          },
+          children: "Feedback on X"
+        }), /*#__PURE__*/_jsx("a", {
+          href: "https://github.com/wilreynolds/geo-tactics-planner",
+          target: "_blank",
+          rel: "noopener noreferrer",
+          style: {
+            fontFamily: "ui-monospace, monospace",
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: 0.5,
+            textTransform: "uppercase",
+            padding: "6px 10px",
+            borderRadius: 7,
+            border: "1px solid #334155",
+            color: "#F1F5F9",
+            background: "#1E293B",
+            textDecoration: "none",
+            whiteSpace: "nowrap"
+          },
+          children: "Fork on GitHub"
+        })]
+      })]
+    }), /*#__PURE__*/_jsxs("div", {
+      style: {
         background: "#F8FAFC",
         border: "1px solid #E2E8F0",
         borderRadius: 9,
@@ -938,31 +967,24 @@ function App() {
           textTransform: "uppercase",
           marginRight: 8
         },
-        children: "How to read"
-      }), "Two ways of scoring the plan you've built, each out of 100 — ", /*#__PURE__*/_jsx("strong", {
-        children: "higher is a stronger plan"
-      }), ".", /*#__PURE__*/_jsx("strong", {
-        children: " Speed / Risk"
-      }), " is how fast this plan pays off without putting the brand at risk. ", /*#__PURE__*/_jsx("strong", {
-        children: "Risk / Impact"
-      }), " is how much it moves the needle without putting the brand at risk. Because risk counts against you in both, adding a riskier play pulls ", /*#__PURE__*/_jsx("em", {
-        children: "both"
-      }), " numbers down.", /*#__PURE__*/_jsx("br", {}), /*#__PURE__*/_jsxs("span", {
-        style: {
-          color: "#64748B"
-        },
-        children: ["For example: a high-impact play looks great while it's low-risk (score near ", /*#__PURE__*/_jsx("strong", {
-          style: {
-            color: "#059669"
-          },
-          children: "90"
-        }), "). Push that same play into high-risk territory and the score falls to the ", /*#__PURE__*/_jsx("strong", {
-          style: {
-            color: "#E11D48"
-          },
-          children: "50s"
-        }), " — the number is telling you the bet just went from smart to reckless."]
-      })]
+        children: "How to read and use this"
+      }), /*#__PURE__*/_jsx("strong", {
+        children: "Read it:"
+      }), " three quick reads on the plan you build — ", /*#__PURE__*/_jsx("strong", {
+        children: "Risk"
+      }), " (how exposed the brand is), ", /*#__PURE__*/_jsx("strong", {
+        children: "Speed"
+      }), " (how soon the payoff lands, ~18 months out to as fast as 1 month), and ", /*#__PURE__*/_jsx("strong", {
+        children: "Impact"
+      }), " (how big the needle-move is).  ", /*#__PURE__*/_jsx("strong", {
+        children: "Use it:"
+      }), " over on the right, set how much each team — PR, Tech, Content, Brand — can partner with you (1–5); that gates which tactics you can play. The Speed, Risk, and Impact scores are our starting defaults — ", /*#__PURE__*/_jsx("strong", {
+        children: "drag any tactic to reposition it and make this your own."
+      }), " And flip between the two boards up top: ", /*#__PURE__*/_jsx("strong", {
+        children: "① Speed × Risk"
+      }), " and ", /*#__PURE__*/_jsx("strong", {
+        children: "② Risk × Impact"
+      }), "."]
     }), /*#__PURE__*/_jsxs("div", {
       style: {
         display: "flex",
@@ -1404,9 +1426,11 @@ function App() {
               maxWidth: 640,
               lineHeight: 1.5
             },
-            children: ["Every measure below ladders to one shared ", /*#__PURE__*/_jsx("strong", {
-              children: "Believed basket — brand impressions + direct + newsletter"
-            }), " — the single line the client learns to read. Never show a Seen number without it."]
+            children: ["These are just recommended KPIs — the ones that take you past visibility and start to show whether people actually ", /*#__PURE__*/_jsx("strong", {
+              children: "believe in"
+            }), " and ", /*#__PURE__*/_jsx("strong", {
+              children: "choose"
+            }), " your brand."]
           })]
         }), /*#__PURE__*/_jsx("button", {
           onClick: copyKPIs,
@@ -1554,21 +1578,35 @@ function App() {
     })]
   });
 }
-function ScoreStat({
+const SCORE_BANDS = ["Extremely Low", "Low", "Medium", "High", "Extremely High"];
+function scoreBand(v) {
+  return SCORE_BANDS[Math.max(0, Math.min(4, Math.floor(v / 20)))];
+}
+function bandDots(v) {
+  return Math.max(0, Math.min(4, Math.floor(v / 20))) + 1;
+}
+function speedToHours(speed) {
+  const t = Math.max(0, Math.min(100, speed)) / 100;
+  return Math.exp(Math.log(540 * 24) * (1 - t) + Math.log(30 * 24) * t);
+}
+function humanTime(hours) {
+  const months = Math.round(hours / (30 * 24));
+  return months <= 1 ? "~1 month" : "~" + months + " months";
+}
+function BandStat({
   label,
   sub,
-  val,
-  color,
-  active
+  band,
+  dots,
+  color
 }) {
   return /*#__PURE__*/_jsxs("div", {
     style: {
       padding: "7px 12px",
       borderRadius: 9,
       background: "#FFFFFF",
-      border: active ? `1.5px solid ${color}` : "1px solid #E2E8F0",
-      minWidth: 116,
-      boxShadow: active ? `0 0 0 3px ${color}1f` : "none"
+      border: "1px solid #E2E8F0",
+      minWidth: 130
     },
     children: [/*#__PURE__*/_jsx("div", {
       style: {
@@ -1581,18 +1619,104 @@ function ScoreStat({
       children: label
     }), /*#__PURE__*/_jsx("div", {
       style: {
-        fontSize: 22,
+        fontSize: 17,
         fontWeight: 800,
         color,
-        lineHeight: 1.15
+        lineHeight: 1.2,
+        margin: "2px 0 4px"
       },
-      children: val == null ? "—" : val
+      children: band == null ? "—" : band
+    }), /*#__PURE__*/_jsx("div", {
+      style: {
+        display: "flex",
+        gap: 3
+      },
+      children: [0, 1, 2, 3, 4].map(i => /*#__PURE__*/_jsx("span", {
+        style: {
+          width: 9,
+          height: 9,
+          borderRadius: 9,
+          background: band == null ? "#E2E8F0" : i < dots ? color : "#E2E8F0"
+        }
+      }, i))
     }), /*#__PURE__*/_jsx("div", {
       style: {
         fontSize: 9.5,
-        color: "#94A3B8"
+        color: "#94A3B8",
+        marginTop: 4
       },
       children: sub
+    })]
+  });
+}
+function SpeedStat({
+  label,
+  speed,
+  color
+}) {
+  const empty = speed == null;
+  return /*#__PURE__*/_jsxs("div", {
+    style: {
+      padding: "7px 12px",
+      borderRadius: 9,
+      background: "#FFFFFF",
+      border: "1px solid #E2E8F0",
+      minWidth: 220,
+      flex: "1 1 220px"
+    },
+    children: [/*#__PURE__*/_jsx("div", {
+      style: {
+        fontFamily: "ui-monospace, monospace",
+        fontSize: 9.5,
+        fontWeight: 700,
+        letterSpacing: 1,
+        color: "#64748B"
+      },
+      children: label
+    }), /*#__PURE__*/_jsx("div", {
+      style: {
+        fontSize: 17,
+        fontWeight: 800,
+        color,
+        lineHeight: 1.2,
+        margin: "2px 0 6px"
+      },
+      children: empty ? "—" : humanTime(speedToHours(speed))
+    }), /*#__PURE__*/_jsx("div", {
+      style: {
+        position: "relative",
+        height: 6,
+        borderRadius: 6,
+        background: "linear-gradient(90deg,#E2E8F0,#CBD5E1)"
+      },
+      children: empty ? null : /*#__PURE__*/_jsx("span", {
+        style: {
+          position: "absolute",
+          left: `calc(${Math.max(3, Math.min(97, speed))}% - 6px)`,
+          top: -3,
+          width: 12,
+          height: 12,
+          borderRadius: 12,
+          background: color,
+          border: "2px solid #FFFFFF",
+          boxShadow: "0 1px 3px rgba(15,23,42,0.3)"
+        }
+      })
+    }), /*#__PURE__*/_jsxs("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        fontFamily: "ui-monospace, monospace",
+        fontSize: 9,
+        fontWeight: 700,
+        color: "#94A3B8",
+        marginTop: 4
+      },
+      children: [/*#__PURE__*/_jsx("span", {
+        children: "18 MONTHS"
+      }), /*#__PURE__*/_jsx("span", {
+        children: "1 MONTH"
+      })]
     })]
   });
 }
